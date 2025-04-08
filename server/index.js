@@ -2,6 +2,7 @@
 //this file is defining our express server
 
 const express = require('express')
+const path= require('path')
 const app = express()
 const port = 3000
 // middleware
@@ -9,17 +10,20 @@ app.use(express.json()) // allows us to parse incoming JSON data from a client
  app.use(express.urlencoded()) // allows us to parse incoming URL Encoded data
 
 // add middleware for static files
-app.use (express.static('public' ))
-
+//app.use (express.static('public'))
+app.use (express.static(path.join(__dirname,'../client/out')))//make our client build  folder public
  
 
 app.get('/test/api', (req,res)=> {
 res.send({
-message: "success! Server is operational"
-})
+message: "Success! Server is operational"
+  })
 
 })
+app.get('/',(req,res)=>{
+res.sendFile(path.join(__dirname,'../client/out','index.html'))
 
+})
 
 
 app.listen(port, () => {
